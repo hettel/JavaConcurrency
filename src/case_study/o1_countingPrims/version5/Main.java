@@ -8,6 +8,7 @@ public class Main
 
   public static void main(String[] args)
   {
+    System.out.println("Start search");
     long startTime = System.currentTimeMillis(); 
     long count = IntStream.range(1_000_000, 2_000_000)
                           .parallel()
@@ -20,5 +21,4 @@ public class Main
     System.out.println("Duration " + (endTime - startTime) + " [ms]");
     System.out.println("Count " + count );
   }
-
 }

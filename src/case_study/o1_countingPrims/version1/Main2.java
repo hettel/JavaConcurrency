@@ -7,7 +7,7 @@ public class Main2
 {
   public static void main(String[] args) throws InterruptedException
   {
-    System.out.println("Start serach");
+    System.out.println("Start search");
     long startTime = System.currentTimeMillis(); 
     
     // Get number of available cores
@@ -18,9 +18,9 @@ public class Main2
     final int numChunks = numOfCores;
     
     final int start = 1_000_000;
-    final int end = 2_000_000;
+    final int end   = 2_000_000;
     
-    // Determine the load distribution and create tasks
+    // Create tasks
     List<Thread> threads = new ArrayList<>();
     final int delta = (end-start)/numChunks;
     for(int i=0; i < numChunks; i++)
@@ -42,8 +42,6 @@ public class Main2
     }
  
     long endTime = System.currentTimeMillis();
- 
     System.out.println("Duration " + (endTime - startTime) + " [ms]");
   }
-
 }

@@ -11,7 +11,7 @@ public class Main1_UsingCounter
 
   public static void main(String[] args) throws InterruptedException
   {
-    System.out.println("Start serach");
+    System.out.println("Start search");
     long start = System.currentTimeMillis(); 
     
     NumberBlock numBlock = new NumberBlock(1_000_000);

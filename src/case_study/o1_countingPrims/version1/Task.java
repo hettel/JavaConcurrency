@@ -29,6 +29,6 @@ public class Task implements Runnable
     }
     long endTime = System.currentTimeMillis(); 
     
-    System.out.println("Number of prims " + count + " Duration " + (endTime - startTime) + "[ms]");
+    System.out.println("Number of prims " + count + ", Task Runtime: " + (endTime - startTime) + "[ms]");
   }
 }
