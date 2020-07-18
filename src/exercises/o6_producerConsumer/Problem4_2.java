@@ -24,7 +24,7 @@ import javax.imageio.stream.ImageOutputStream;
 
 public class Problem4_2
 {
-  static class DataTransferObject
+  private static class DataTransferObject
   {
     private String fileName;
     private BufferedImage image;
@@ -32,6 +32,7 @@ public class Problem4_2
   
   public static void main(String[] args) throws IOException
   {
+    // ---------------------------------------------------------
     // Step 1
     // read all png-files from the actual directory
     PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.png");
@@ -55,9 +56,9 @@ public class Problem4_2
     System.out.println( data.size() + " files read" );
     
     
-    
+    // ---------------------------------------------------------
     // Step 2
-    // compress and save images
+    // compress and save images (jpg-format)
     Iterator<ImageWriter> writers = ImageIO.getImageWritersByFormatName("jpg");
     ImageWriter writer = (ImageWriter) writers.next();
     ImageWriteParam param = writer.getDefaultWriteParam();

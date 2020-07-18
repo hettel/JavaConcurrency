@@ -30,7 +30,8 @@ public class ParallelSearch
     executor.shutdownNow();
     
     System.out.println("Found " + result.hashCode() );
+
     long endTime = System.currentTimeMillis();
-    System.out.println("Duration " + (endTime - startTime) + " [ms]");
+    System.out.println("Elapsed Time " + (endTime - startTime) + " [ms]");
   }
 }

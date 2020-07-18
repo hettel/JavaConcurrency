@@ -10,9 +10,11 @@ public class Problem2_1
     
     System.out.println("Hashcode of >>Hello Metropolia<< : " + value.hashCode() );
         
-    long start = System.currentTimeMillis();
+    long startTime = System.currentTimeMillis();
+
     while(true)
     {
+      // Append a random number to the string
       String candidate = value + ThreadLocalRandom.current().nextLong();
       if( candidate.hashCode() >= 0 &&  candidate.hashCode() < 10 )
       {
@@ -21,7 +23,8 @@ public class Problem2_1
         break;
       }
     }
-    long end = System.currentTimeMillis();
-    System.out.println("Duration " + (end-start) + "[ms]");
+    
+    long endTime = System.currentTimeMillis();
+    System.out.println("Elapsed time : " + (endTime - startTime) + "[ms]");
   }
 }

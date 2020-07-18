@@ -56,10 +56,11 @@ public class Demo02
 
     ForkJoinPool executor = new ForkJoinPool(8);
     Task root = new Task(array, 0, array.length);
-    executor.execute(root);
+    executor.execute(root);  // non-blocking call
 
     // or using the build-in pool
-    // ForkJoinPool.commonPool().execute(root);
+    // ForkJoinPool.commonPool().execute(root);  // non-blocking
+    // ForkJoinPool.commonPool().invoke(root);   // blocking
 
     System.out.println("Max " + root.join());
   }

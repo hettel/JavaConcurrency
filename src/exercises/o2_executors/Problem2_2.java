@@ -20,22 +20,33 @@ public class Problem2_2
   {
     System.out.println("Start image calculation");
     
+    long startTime = System.currentTimeMillis();
+    
+    // area of the complex plane (the area should be a square)
+    // this are the values that can be changed to produce different images
+    double delta = 1.5;
+    double reCenter = -0.5;
+    double imCenter =  0.0;
+    
+    // calculation of the coordinates
+    double reStart = reCenter - delta; 
+    double reEnd   = reCenter + delta;  
+    double imStart = imCenter - delta; 
+    double imEnd   = imCenter + delta;
+
+    // step sizes for the traversal of the area
+    double reStepSize = (reEnd - reStart) / RESOLUTION;
+    double imStepSize = (imEnd - imStart) / RESOLUTION;
+    
+    // array representing the the considered area
+    // A field will contain the number of iteration done
+    // for the corresponding value of x + i*y  = Re(c) + i*Im(c)
+    int[][] area = new int[RESOLUTION][RESOLUTION];
+
     //initial values (do not change)
     double zRe = 0.0;
     double zIm = 0.0;
-
-    // area of the compley plane
-    // the area should be a square
-    double detla = 1.5;
-    double reStart = -0.5 - detla; 
-    double reEnd   = -0.5 + detla;  
-    double imStart = 0.0 - detla; 
-    double imEnd   = 0.0 + detla;
-
-    double reStepSize = (reEnd - reStart) / RESOLUTION;
-    double imStepSize = (imEnd - imStart) / RESOLUTION;
-    int[][] area = new int[RESOLUTION][RESOLUTION];
-
+    
     // calculation of the convergence behavior 
     double x = reStart;
     for (int i = 0; i < RESOLUTION; i++, x += reStepSize)
@@ -46,6 +57,9 @@ public class Problem2_2
         area[i][j] = iterate(zRe, zIm, x, y, ITERATIONS);
       }
     }
+    
+    long endTime = System.currentTimeMillis();
+    System.out.println("Elapsed time : " + (endTime - startTime) + "[ms]");
 
     System.out.println("create and save image");
     plot(area);
@@ -53,6 +67,8 @@ public class Problem2_2
     System.out.println("done");
   }
 
+  // Returns the number of iteration until the threshold is reached
+  // If the iteration converge the max value of iterations is return
   private static int iterate(double re, double im, double cRe, double cIm, int iterations)
   {
     for (int i = 0; i < iterations; i++)
@@ -69,7 +85,7 @@ public class Problem2_2
     return iterations;
   }
 
-  //store the array as png-file
+  //store the array as png-file using the specified color map
   private static void plot(int[][] imageArea) throws IOException
   {
     int width = imageArea.length;

@@ -1,4 +1,4 @@
-package slides.o1_threads.case_study.countingPrims_version5;
+package slides.o1_threads.case_study.countingPrimes_version5;
 
 import java.math.BigInteger;
 import java.util.stream.IntStream;
@@ -18,7 +18,7 @@ public class Main
     
     long endTime = System.currentTimeMillis();
     
-    System.out.println("Duration " + (endTime - startTime) + " [ms]");
+    System.out.println("Elapsed Time " + (endTime - startTime) + " [ms]");
     System.out.println("Count " + count );
   }
 }

@@ -20,7 +20,7 @@ public class Demo01
     }
     long end = System.currentTimeMillis();
     
-    System.out.println("Duration " + (end - start) + " [ms]");
-    System.out.println("Number of prims " + count );
+    System.out.println("Elapsed Time " + (end - start) + " [ms]");
+    System.out.println("Number of primes " + count );
   }
 }

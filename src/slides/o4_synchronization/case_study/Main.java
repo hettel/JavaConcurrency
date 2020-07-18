@@ -5,6 +5,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main
 {
+  //++++++++++++++++++++++++++++++++++++
+  // WARNING !!!!
+  // This example runs into a deadlock
+  //++++++++++++++++++++++++++++++++++++
   public static void main(String[] args)
   {
     FairBoundedBuffer<Integer> channel = new FairBoundedBuffer<Integer>(2);

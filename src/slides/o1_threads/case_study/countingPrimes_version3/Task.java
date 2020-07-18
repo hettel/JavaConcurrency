@@ -1,4 +1,4 @@
-package slides.o1_threads.case_study.countingPrims_version3;
+package slides.o1_threads.case_study.countingPrimes_version3;
 
 import java.math.BigInteger;
 
@@ -31,7 +31,7 @@ public class Task implements Runnable
     }
     long endTime = System.currentTimeMillis(); 
     
-    System.out.println("Number of prims " + count + " Duration " + (endTime - startTime) + "[ms]");
+    System.out.println("Number of primes " + count + " Runtime " + (endTime - startTime) + "[ms]");
   }
 
 }

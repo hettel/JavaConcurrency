@@ -43,7 +43,7 @@ public class Demo02
     executor.execute( new Task(latch) );
     executor.execute( new Task(latch) );
     
-    // Main thread gives the start signal by counting down
+    // Main thread gives the start signal doing a count down
     System.out.println("Count down");
     for(int i=10; i>=0; i--)
     {

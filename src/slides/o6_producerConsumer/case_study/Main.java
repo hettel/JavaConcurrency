@@ -28,6 +28,6 @@ public class Main
     th1.join(); th2.join(); th3.join(); th4.join();
     
     long endTime = System.currentTimeMillis();
-    System.out.println("Duration " + (endTime - startTime) + "[ms]");
+    System.out.println("Elapsed Time " + (endTime - startTime) + "[ms]");
   }
 }

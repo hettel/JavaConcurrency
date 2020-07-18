@@ -10,7 +10,7 @@ public class Sobel
                                                    {0, 0, 0}, 
                                                    {-1, -2, -1}};
   
-  private static int gradHorizontal(int[][] image, int x, int y)
+  private static int gradientHorizontal(int[][] image, int x, int y)
   {
     int sum = 0;
     for(int i=0; i<3; i++)
@@ -24,7 +24,7 @@ public class Sobel
     return sum;
   }
   
-  private static int gradVertical(int[][] image, int x, int y)
+  private static int gradientVertical(int[][] image, int x, int y)
   {
     int sum = 0;
     for(int i=0; i<3; i++)
@@ -41,8 +41,8 @@ public class Sobel
   
   public static double meanGradiant(int[][] image, int x, int y)
   {
-    int soble_h = gradHorizontal(image, x, y);
-    int soble_v = gradVertical(image, x, y);
+    int soble_h = gradientHorizontal(image, x, y);
+    int soble_v = gradientVertical(image, x, y);
     
     return Math.sqrt( soble_h*soble_h + soble_v*soble_v ) ;
   }

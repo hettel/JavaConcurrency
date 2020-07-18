@@ -36,5 +36,4 @@ public class Main
     new Thread(consumer).start();
     new Thread(consumer).start();
   }
-
 }

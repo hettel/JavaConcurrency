@@ -1,9 +1,9 @@
-package slides.o1_threads.case_study.countingPrims_version4;
+package slides.o1_threads.case_study.countingPrimes_version4;
 
 import java.math.BigInteger;
 
-import slides.o1_threads.case_study.countingPrims_version4.util.Counter;
-import slides.o1_threads.case_study.countingPrims_version4.util.NumberBlock;
+import slides.o1_threads.case_study.countingPrimes_version4.util.Counter;
+import slides.o1_threads.case_study.countingPrimes_version4.util.NumberBlock;
 
 public class TaskUsingCounter implements Runnable
 {
@@ -34,7 +34,7 @@ public class TaskUsingCounter implements Runnable
     }
     long endTime = System.currentTimeMillis(); 
     
-    System.out.println(" Duration " + (endTime - startTime) + "[ms]");
+    System.out.println(" Runtime " + (endTime - startTime) + "[ms]");
   }
 
 }

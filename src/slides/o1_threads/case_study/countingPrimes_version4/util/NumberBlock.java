@@ -1,4 +1,4 @@
-package slides.o1_threads.case_study.countingPrims_version3;
+package slides.o1_threads.case_study.countingPrimes_version4.util;
 
 public class NumberBlock
 {

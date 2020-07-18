@@ -8,21 +8,25 @@ public class Problem6_3
 {
   public static void main(String[] args) throws IOException
   {
-    String inputFileName = "AliceDetector_CERN.jpg";
+    // In- and output files
+    String inputFileName  = "AliceDetector_CERN.jpg";
     String outputFileName = "AliceDetector_CERN_Edges.jpg";
-    
-    File infile = new File(inputFileName);
+        
+    long startTime, endTime;
     long globalStart = System.currentTimeMillis();
-    
+
     System.out.println("load image " + inputFileName + " and convert it to gray scale");
-    long start = System.currentTimeMillis();
+    
+    startTime = System.currentTimeMillis();
+    File infile = new File(inputFileName);
     int[][] image = IOUtils.loadImageAndConvertToGrayScale(infile);
-    long end = System.currentTimeMillis();
-    System.out.println("end loading " + (end - start) + " [ms]" );
+    endTime = System.currentTimeMillis();
+    System.out.println("runtime for loading : " + (endTime - startTime) + " [ms]" );
    
     
     System.out.println("start process edge detection");
-    start = System.currentTimeMillis();
+
+    startTime = System.currentTimeMillis();
     int[][] newImage = new int[image.length][image[0].length]; 
     for(int i=1; i< image.length-1;i++)
     {
@@ -33,14 +37,18 @@ public class Problem6_3
          newImage[i][j] = grayValue < 150 ? 0 : grayValue;
       }
     }
-    System.out.println("end process " + (System.currentTimeMillis() - start) + " [ms]" );
+    endTime = System.currentTimeMillis();
+    System.out.println("runtime for edge detection : " + (endTime - startTime) + " [ms]" );
   
+    
     System.out.println("store image as " + outputFileName );
-    start = System.currentTimeMillis();
+
+    startTime = System.currentTimeMillis();
     File outfile = new File(outputFileName);
     IOUtils.storeImage(outfile, newImage);
-    System.out.println("end store " + (System.currentTimeMillis() - start) + " [ms]" );
+    endTime = System.currentTimeMillis();
+    System.out.println("runtime for saving the image : " + (endTime - startTime) + " [ms]" );
      
-    System.out.println("done in " + (System.currentTimeMillis() - globalStart) + " [ms]");
+    System.out.println("Global elapsed time : " + (System.currentTimeMillis() - globalStart) + " [ms]");
   }
 }

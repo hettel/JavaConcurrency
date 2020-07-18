@@ -50,8 +50,8 @@ public class Demo02
     Future<Integer> futureOfTask4 = executor.submit(task4);
     
     // wait until the results are available
-    int count = futureOfTask1.get() +  futureOfTask2.get() 
-                + futureOfTask3.get() +futureOfTask4.get();
+    int count = futureOfTask1.get() + futureOfTask2.get() 
+              + futureOfTask3.get() + futureOfTask4.get();
     System.out.println("Count " + count );
     
     executor.shutdown();

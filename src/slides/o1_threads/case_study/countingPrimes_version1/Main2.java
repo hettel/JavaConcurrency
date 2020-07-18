@@ -1,4 +1,4 @@
-package slides.o1_threads.case_study.countingPrims_version1;
+package slides.o1_threads.case_study.countingPrimes_version1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +42,6 @@ public class Main2
     }
  
     long endTime = System.currentTimeMillis();
-    System.out.println("Duration " + (endTime - startTime) + " [ms]");
+    System.out.println("Elapsed Time " + (endTime - startTime) + " [ms]");
   }
 }

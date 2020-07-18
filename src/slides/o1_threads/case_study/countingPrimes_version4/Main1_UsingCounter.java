@@ -1,12 +1,12 @@
-package slides.o1_threads.case_study.countingPrims_version4;
+package slides.o1_threads.case_study.countingPrimes_version4;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import slides.o1_threads.case_study.countingPrims_version4.util.Adder;
-import slides.o1_threads.case_study.countingPrims_version4.util.NumberBlock;
+import slides.o1_threads.case_study.countingPrimes_version4.util.Counter;
+import slides.o1_threads.case_study.countingPrimes_version4.util.NumberBlock;
 
-public class Main2_UsingAdder
+public class Main1_UsingCounter
 {
 
   public static void main(String[] args) throws InterruptedException
@@ -15,14 +15,14 @@ public class Main2_UsingAdder
     long start = System.currentTimeMillis(); 
     
     NumberBlock numBlock = new NumberBlock(1_000_000);
-    Adder adder = new Adder();
+    Counter counter = new Counter();
     
     final int numOfTasks = 4;
     
     List<Thread> threads = new ArrayList<>();
     for(int i=0; i<numOfTasks; i++)
     {
-      TaskUsingAdder task = new TaskUsingAdder(2_000_000, numBlock, adder);
+      TaskUsingCounter task = new TaskUsingCounter(2_000_000, numBlock, counter);
       threads.add( new Thread(task) );
     }
     
@@ -34,8 +34,8 @@ public class Main2_UsingAdder
     
     long end = System.currentTimeMillis();
  
-    System.out.println("Duration " + (end - start) + " [ms]");
-    System.out.println("Count " + adder.getValue() );
+    System.out.println("Elapsed Time " + (end - start) + " [ms]");
+    System.out.println("Count " + counter.getValue() );
   }
 
 }

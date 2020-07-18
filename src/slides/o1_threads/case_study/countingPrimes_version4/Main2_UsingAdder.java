@@ -1,9 +1,12 @@
-package slides.o1_threads.case_study.countingPrims_version3;
+package slides.o1_threads.case_study.countingPrimes_version4;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main
+import slides.o1_threads.case_study.countingPrimes_version4.util.Adder;
+import slides.o1_threads.case_study.countingPrimes_version4.util.NumberBlock;
+
+public class Main2_UsingAdder
 {
 
   public static void main(String[] args) throws InterruptedException
@@ -12,13 +15,14 @@ public class Main
     long start = System.currentTimeMillis(); 
     
     NumberBlock numBlock = new NumberBlock(1_000_000);
+    Adder adder = new Adder();
     
     final int numOfTasks = 4;
     
     List<Thread> threads = new ArrayList<>();
     for(int i=0; i<numOfTasks; i++)
     {
-      Task task = new Task(2_000_000, numBlock);
+      TaskUsingAdder task = new TaskUsingAdder(2_000_000, numBlock, adder);
       threads.add( new Thread(task) );
     }
     
@@ -30,7 +34,8 @@ public class Main
     
     long end = System.currentTimeMillis();
  
-    System.out.println("Duration " + (end - start) + " [ms]");
+    System.out.println("Elapsed Time " + (end - start) + " [ms]");
+    System.out.println("Count " + adder.getValue() );
   }
 
 }
