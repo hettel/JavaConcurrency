@@ -1,4 +1,4 @@
-package slides.o9_completabeFuture;
+package slides.o9_completableFuture;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,8 +1,8 @@
-package slides.o9_completabeFuture;
+package slides.o9_completableFuture;
 
 import java.util.concurrent.CompletableFuture;
 
-public class Demo05
+public class Demo04
 {
 
   public static void main(String[] args)
@@ -13,8 +13,8 @@ public class Demo05
     CompletableFuture<Integer> left = cfRoot.thenApplyAsync(i -> i / 2);
     CompletableFuture<Integer> right = cfRoot.thenApplyAsync(i -> i - 2);
 
-    // OR operation
-    left.applyToEitherAsync(right, i -> 2*i).thenAcceptAsync(System.out::println).join();
+    // AND operation
+    left.thenCombineAsync(right, (l, r) -> r + l).thenAccept(System.out::println);
 
   }
 
