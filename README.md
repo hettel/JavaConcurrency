@@ -1,4 +1,4 @@
-# Metropolia Summer School 2020
+# Lecture: Concurrent Programming with Java
 
 This repository contains some code templates for my lecture.
 
