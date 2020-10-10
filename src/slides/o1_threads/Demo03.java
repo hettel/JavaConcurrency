@@ -1,47 +1,36 @@
 package slides.o1_threads;
 
+import java.util.concurrent.TimeUnit;
+
 public class Demo03
 {
-  static private class Counter
-  {
-    private int value;
+  // shared data (the two threads can access this variable)
+  static boolean isRunning = true;
 
-    public Counter()
-    {
-      this.value = 0;
-    }
-
-    public void increment()
-    {
-      this.value++;
-    }
-
-    public int getValue()
-    {
-      return this.value;
-    }
-  }
-  
   public static void main(String[] args) throws InterruptedException
   {
-    Counter counter = new Counter();
-
-    Runnable task = () -> {
-      for (int i = 0; i < 5_000; i++)
-        counter.increment();
+    Runnable reader = () -> {
+      int count = 0;
+      while (isRunning)
+        count++;
+      System.out.println("Value: " + count);
     };
 
-    Thread th1 = new Thread(task);
-    Thread th2 = new Thread(task);
+    Runnable writer = () -> isRunning = false;
 
-    // start threads
+    Thread th1 = new Thread(reader);
+    Thread th2 = new Thread(writer);
+
+    System.out.println("Start threads");
     th1.start();
+    TimeUnit.MILLISECONDS.sleep(500);
     th2.start();
 
-    // Wait until threads are finished
+    TimeUnit.MILLISECONDS.sleep(100);
+    System.out.println("isRunning " + isRunning );
+    
     th1.join();
     th2.join();
-
-    System.out.println("Value " + counter.getValue());
+    System.out.println("done");
   }
 }

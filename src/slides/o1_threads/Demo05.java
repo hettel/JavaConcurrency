@@ -1,32 +1,47 @@
 package slides.o1_threads;
 
-import java.util.concurrent.TimeUnit;
-
 public class Demo05
 {
-  static boolean isRunning = true;
+  static private class Counter
+  {
+    private int value;
 
+    public Counter()
+    {
+      this.value = 0;
+    }
+
+    public void increment()
+    {
+      this.value++;
+    }
+
+    public int getValue()
+    {
+      return this.value;
+    }
+  }
+  
   public static void main(String[] args) throws InterruptedException
   {
-    Runnable reader = () -> {
-      int count = 0;
-      while (isRunning)
-        count++;
-      System.out.println("Value: " + count);
+    Counter counter = new Counter();
+
+    Runnable task = () -> {
+      for (int i = 0; i < 5_000; i++)
+        counter.increment();
     };
 
-    Runnable writer = () -> isRunning = false;
+    Thread th1 = new Thread(task);
+    Thread th2 = new Thread(task);
 
-    Thread th1 = new Thread(reader);
-    Thread th2 = new Thread(writer);
-
-    System.out.println("Start threads");
+    // start threads
     th1.start();
-    TimeUnit.MILLISECONDS.sleep(500);
     th2.start();
 
+    // Wait until threads are finished
     th1.join();
     th2.join();
-    System.out.println("done");
+
+    System.out.println("Value " + counter.getValue());
   }
 }

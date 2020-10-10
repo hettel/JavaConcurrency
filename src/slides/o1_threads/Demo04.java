@@ -1,48 +1,30 @@
 package slides.o1_threads;
 
+import java.util.concurrent.TimeUnit;
 
 public class Demo04
 {
-  static private class SyncCounter
-  {
-    private int value;
-
-    public SyncCounter()
-    {
-      this.value = 0;
-    }
-
-    public synchronized void increment()
-    {
-      this.value++;
-    }
-
-    public synchronized int getValue()
-    {
-      return this.value;
-    }
-  }
+  static volatile boolean isRunning = true;
   
   public static void main(String[] args) throws InterruptedException
   {
-    SyncCounter counter = new SyncCounter();
-
-    Runnable task = () -> {
-      for (int i = 0; i < 5_000; i++)
-        counter.increment();
+    Runnable reader = () -> {
+      int count = 0;
+      while( isRunning ) count++;
+      System.out.println("Value: " + count);
     };
+    
+    Runnable writer = () -> isRunning = false;
 
-    Thread th1 = new Thread(task);
-    Thread th2 = new Thread(task);
-
-    // start threads
+    Thread th1 = new Thread( reader );
+    Thread th2 = new Thread( writer );
+    
+    System.out.println("Start threads");
     th1.start();
+    TimeUnit.MILLISECONDS.sleep(500);
     th2.start();
-
-    // Wait until threads are finished
-    th1.join();
-    th2.join();
-
-    System.out.println("Value " + counter.getValue());
+    
+    th1.join(); th2.join();
+    System.out.println("done");
   }
 }
