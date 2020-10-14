@@ -3,28 +3,30 @@ package slides.o1_threads;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ThreadLocalRandom;
 
-class Task implements Runnable
+// declare X and Y as volatile prevent the
+// reordering effect.
+class GobalData
 {
-  private final int me;
+  static int X;
+  static int rx;
+  static int Y;
+  static int ry;
+}
+
+class Task1 implements Runnable
+{
   private final CyclicBarrier startBarrier;
   private final CyclicBarrier syncBarrier;
 
-  private final int[] X;
-  private final int[] r;
-
-  Task(int me, CyclicBarrier startBarrier, CyclicBarrier syncBarrier, int[] X, int r[])
+  Task1(CyclicBarrier startBarrier, CyclicBarrier syncBarrier)
   {
-    this.me = me;
     this.startBarrier = startBarrier;
     this.syncBarrier  = syncBarrier;
-    this.X = X;
-    this.r = r;
   }
 
   public void run()
   {
-    int other = (me == 1) ? 0 : 1;
-    System.out.println("Task " + me + " started (other = " + other + ")");
+    System.out.println("Task 1 started");
    
     try
     {
@@ -38,10 +40,67 @@ class Task implements Runnable
         // active wait (burn cpu)
         count += activeWait();
         
-        X[me]=1;
-        r[me]=X[other];
+        GobalData.X  = 1;
+        GobalData.rx = GobalData.Y;
         
         // sync both threads
+        // and reset global variables
+        syncBarrier.await();
+      }
+      
+      System.out.println("Count " + count);
+    }
+    catch (Exception exce)
+    {
+      exce.printStackTrace();
+    }
+  }
+
+  private int activeWait()
+  {
+    int sum = 0;
+    int runs = ThreadLocalRandom.current().nextInt(100);
+    for (int i = 0; i < runs; i++)
+    {
+      sum += i;
+    }
+    return sum;
+  }
+}
+
+
+class Task2 implements Runnable
+{
+  private final CyclicBarrier startBarrier;
+  private final CyclicBarrier syncBarrier;
+
+  Task2(CyclicBarrier startBarrier, CyclicBarrier syncBarrier)
+  {
+    this.startBarrier = startBarrier;
+    this.syncBarrier  = syncBarrier;
+  }
+
+  public void run()
+  {
+    System.out.println("Task 2 started");
+   
+    try
+    {
+      long count = 0;
+      
+      for (int i = 0; i < Integer.MAX_VALUE; i++)
+      {
+        // sync both threads
+        startBarrier.await();
+        
+        // active wait (burn cpu)
+        count += activeWait();
+        
+        GobalData.Y  = 1;
+        GobalData.ry = GobalData.X;
+        
+        // sync both threads
+        // and reset global variables
         syncBarrier.await();
       }
       
@@ -69,11 +128,7 @@ public class Demo08
 {
   public static void main(String[] args)
   {
-    final int X[] = new int[2];
-    final int r[] = new int[2];
-
     CyclicBarrier startBarrier = new CyclicBarrier(2);
-
     CyclicBarrier syncBarrier = new CyclicBarrier(2, new Runnable()
     {
       private int count = 0;
@@ -81,27 +136,27 @@ public class Demo08
       @Override
       public void run()
       {
-        // Check if reordering has occured
-        if (r[0] == 0 && r[1] == 0)
+        // Check if reordering has occurred
+        if (GobalData.rx == 0 && GobalData.ry == 0)
         {
           // Violation of sequential condition
-          System.out.println(" r[0] == r[1] == 0  at run " + count + " (" + r[0] + "," + r[1] + ")");
+          System.out.println(" rx == ry == 0  at run " + count + " (" + GobalData.rx + "," + GobalData.ry + ")");
         }
         
         // Reset variable (init values)
-        X[0] = X[1] = 0;
-        r[0] = r[1] = -1;
+        GobalData.X = GobalData.Y = 0;
+        GobalData.rx = GobalData.ry = -1;
         count++;
       }
     } ); 
 
-    Task task0 = new Task(0, startBarrier, syncBarrier, X, r);
-    Task task1 = new Task(1, startBarrier, syncBarrier, X, r);
+    Task1 task1 = new Task1(startBarrier, syncBarrier);
+    Task2 task2 = new Task2(startBarrier, syncBarrier);
     
-    Thread th0 = new Thread( task0 );
     Thread th1 = new Thread( task1 );
+    Thread th2 = new Thread( task2 );
     
-    th0.start(); 
     th1.start(); 
+    th2.start(); 
   }
 }
