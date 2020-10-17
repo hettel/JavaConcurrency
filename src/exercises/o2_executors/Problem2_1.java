@@ -6,9 +6,9 @@ public class Problem2_1
 {
   public static void main(String[] args)
   {
-    String value = "Hello Metropolia";
+    String value = "Java Concurrency";
     
-    System.out.println("Hashcode of >>Hello Metropolia<< : " + value.hashCode() );
+    System.out.println("Hashcode of >>Java Concurrency<< : " + value.hashCode() );
         
     long startTime = System.currentTimeMillis();
 
