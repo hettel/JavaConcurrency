@@ -4,7 +4,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Main
 {
-
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // WARNING !!!!
+  // This example runs into a deadlock if the condition
+  // 
+  // 2*BufferCapacity < numOf( Consumer ) + numOf( Producer )
+  //
+  // holds
+  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   public static void main(String[] args)
   {
     BoundedBuffer<Integer> channel = new BoundedBuffer<Integer>(2);

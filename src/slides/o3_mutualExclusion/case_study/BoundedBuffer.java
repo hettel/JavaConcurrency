@@ -6,7 +6,7 @@ public class BoundedBuffer<T>
   private int tailIndex = 0;
   private int headIndex = 0;
   private int size = 0;
-  private int capacity;
+  private final int capacity;
   
   @SuppressWarnings("unchecked")
   public BoundedBuffer(int capacity)
