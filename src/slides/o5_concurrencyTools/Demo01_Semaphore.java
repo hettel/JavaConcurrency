@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.stream.IntStream;
 
-public class Demo01
+public class Demo01_Semaphore
 {
   static class SimpleUninterruptableBoundedBuffer<E>
   {
