@@ -45,7 +45,7 @@ public class Demo03_CyclicBarrier
       @Override
       public void run()
       {
-        sleep(500, TimeUnit.MILLISECONDS);
+        sleep(1000, TimeUnit.MILLISECONDS);
         System.out.println("Next round (by " + Thread.currentThread().getName() + ")" );
       }
     });

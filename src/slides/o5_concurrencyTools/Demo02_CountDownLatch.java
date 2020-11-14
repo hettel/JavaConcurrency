@@ -35,7 +35,7 @@ public class Demo02_CountDownLatch
   
   public static void main(String[] args) throws InterruptedException
   {
-    CountDownLatch latch = new CountDownLatch(11);
+    CountDownLatch latch = new CountDownLatch(4);
     
     ExecutorService executor = Executors.newFixedThreadPool(4);
     executor.execute( new Task(latch) );
