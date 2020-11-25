@@ -43,10 +43,9 @@ public class Problem4_3
   
   private static void encrypt(String inFile, String outFile) throws IOException
   {
-    InputStream input   = new FileInputStream( new File( inFile ) );
-    OutputStream output = new FileOutputStream( new File( outFile ) );
-    
-    try
+    // Input- and OutpitStream are autoclosable
+    try(InputStream input   = new FileInputStream( new File( inFile ) );
+        OutputStream output = new FileOutputStream( new File( outFile ) ))
     {
       // read buffer
       byte[] block = new byte[1];
@@ -61,7 +60,7 @@ public class Problem4_3
           // XOR operation
           byte nextValue = (byte) (salt ^ block[0]);
 
-          // encrypt using Caesar cipher (shift 42)
+          // encrypt using a simple Caesar cipher (shift 42)
           int intValue = Byte.toUnsignedInt(nextValue);
           intValue = (intValue + 42) % 256;
           byte value = Integer.valueOf(intValue).byteValue();
@@ -71,19 +70,13 @@ public class Problem4_3
         }
       }
     }
-    finally
-    {
-      input.close();
-      output.close();
-    }
   }
   
   private static void decrypt(String inFile, String outFile) throws IOException
   {
-    InputStream input = new FileInputStream( new File( inFile ) );
-    OutputStream output = new FileOutputStream( new File( outFile ) );
-    
-    try
+    // Input- and OutpitStream are autoclosable
+    try(InputStream input   = new FileInputStream( new File( inFile ) );
+        OutputStream output = new FileOutputStream( new File( outFile ) ))
     {
       // read buffer
       byte[] block = new byte[1];
@@ -107,11 +100,6 @@ public class Problem4_3
           salt = block[0];
         }
       }
-    }
-    finally
-    {
-      input.close();
-      output.close();
     }
   }
 }
