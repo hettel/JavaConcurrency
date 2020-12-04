@@ -52,6 +52,7 @@ public class Parallel_SudokuSolver
          newBoard.pack();
          tasks.add( new SearchTask(newBoard) );
       }
+      
       invokeAll(tasks);
      
       List<SudokuBoard> resultList = new ArrayList<>();
@@ -61,7 +62,6 @@ public class Parallel_SudokuSolver
       
       return resultList;
     }
-    
   }
   
 
@@ -77,6 +77,7 @@ public class Parallel_SudokuSolver
     SearchTask rootTask = new SearchTask(board);
     ForkJoinPool.commonPool().execute(rootTask);
     List<SudokuBoard> boards = rootTask.join();
+    System.out.println("Found " + boards.size());
     SudokuBoard res = boards.get(0);
     System.out.println("Duration " + (System.currentTimeMillis() - start) + " [ms]");
     res.print();

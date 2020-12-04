@@ -43,7 +43,7 @@ public class Problem4_3
   
   private static void encrypt(String inFile, String outFile) throws IOException
   {
-    // Input- and OutpitStream are autoclosable
+    // Input- and OutputStream are autoclosable
     try(InputStream input   = new FileInputStream( new File( inFile ) );
         OutputStream output = new FileOutputStream( new File( outFile ) ))
     {
@@ -74,7 +74,7 @@ public class Problem4_3
   
   private static void decrypt(String inFile, String outFile) throws IOException
   {
-    // Input- and OutpitStream are autoclosable
+    // Input- and OutputStream are autoclosable
     try(InputStream input   = new FileInputStream( new File( inFile ) );
         OutputStream output = new FileOutputStream( new File( outFile ) ))
     {

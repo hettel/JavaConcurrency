@@ -5,7 +5,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Demo02
+public class Demo03
 {
   private static final int THRESHOLD = 2;
 
@@ -42,12 +42,16 @@ public class Demo02
       {
         // splitting
         int mid = (start + end) / 2;
+        
+        // calculate left Task in parallel
         Task leftTask = new Task(array, start, mid);
+        leftTask.fork();
+        
         Task rightTask = new Task(array, mid, end);
-        invokeAll(leftTask, rightTask);
+        Integer rightValue = rightTask.compute();
 
         // combine
-        return Math.max(leftTask.join(), rightTask.join());
+        return Math.max(leftTask.join(), rightValue );
       }
     }
   }
