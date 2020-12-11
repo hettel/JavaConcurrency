@@ -1,6 +1,7 @@
 package slides.o8_parallelStreams.case_study;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.LongAdder;
@@ -9,12 +10,12 @@ import java.util.stream.Collectors;
 import slides.o8_parallelStreams.case_study.util.ColorCentroid;
 import slides.o8_parallelStreams.case_study.util.IOTools;
 import slides.o8_parallelStreams.case_study.util.Image;
+import slides.o8_parallelStreams.case_study.util.Pixel;
 
 
 
-public class Main
+public class MainWithStandardCollectors
 {
-
   public static void main(String[] args) throws IOException
   {
     final String inputFileName = "moi.jpg";
@@ -49,14 +50,18 @@ public class Main
     {
       accum.reset();
       
-      Map<Integer, ColorCentroid> clusterMap = image.pixels.parallelStream()
-          .collect( Collectors.groupingBy( p -> p.centroidId, new CentroidCollector() ) );
-
-      
+      Map<Integer, List<Pixel>> clusterMapList = image.pixels.parallelStream()
+          .collect( Collectors.groupingBy( p -> p.centroidId) );
+          
       // calculate centroids
-      for(Integer id : clusterMap.keySet() )
+      for(Integer id : clusterMapList.keySet() )
       {
-        centroids[id] = clusterMap.get(id);
+        double sumRed   = clusterMapList.get(id).stream().mapToDouble( p -> p.red ).sum();
+        double sumGreen = clusterMapList.get(id).stream().mapToDouble( p -> p.green ).sum();
+        double sumBlue  = clusterMapList.get(id).stream().mapToDouble( p -> p.blue ).sum();
+        double len = clusterMapList.get(id).size();
+        
+        centroids[id] = new ColorCentroid( sumRed/len, sumGreen/len, sumBlue/len);
       }
          
       // assign centroids

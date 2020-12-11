@@ -1,8 +1,10 @@
 package slides.o8_parallelStreams.case_study;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.stream.Collectors;
 
 import slides.o8_parallelStreams.case_study.util.ColorCentroid;
 import slides.o8_parallelStreams.case_study.util.IOTools;
@@ -10,19 +12,17 @@ import slides.o8_parallelStreams.case_study.util.Image;
 
 
 
-public class MainEnhanced
+public class MainWithUserDefinedCollector_Downstream
 {
-
   public static void main(String[] args) throws IOException
   {
     final String inputFileName = "moi.jpg";
     final String outputFileName = "moi_reduced.png";
     final int k = 3;
     
-    System.out.println("Color k-Means enhanced");
+    System.out.println("Color k-Means");
     System.out.println("Load image: " + inputFileName);
     Image image = IOTools.load(inputFileName);
-    
     
     System.out.println("Reduce image (k = " + k + ")");
     long startTime = System.currentTimeMillis();
@@ -30,25 +30,34 @@ public class MainEnhanced
     long endTime = System.currentTimeMillis();
     System.out.println("Duration: " + (endTime - startTime) + "[ms]");
     
-    System.out.println("Store image: " + outputFileName );
+    System.out.println("Store image: " + outputFileName);
     IOTools.store(image, outputFileName);
     System.out.println("done");
   }
   
   private static void reduce(Image image, final int maxCluster)
   {
-    // random assignment to a cluster
+    // random assignment of color pixels to a cluster
     image.pixels.parallelStream().forEach( p -> p.centroidId = ThreadLocalRandom.current().nextInt(maxCluster) );
     
-   
-    // counts reallocation of pixels to clusters
+    ColorCentroid[] centroids = new ColorCentroid[ maxCluster ];
+    
+    // counts reallocations
     LongAdder accum = new LongAdder();
     while(true)
     {
       accum.reset();
       
-      ColorCentroid[] centroids = image.pixels.parallelStream().collect( new CentroidCollectorEnhanced(maxCluster) );
-    
+      Map<Integer, ColorCentroid> clusterMap = image.pixels.parallelStream()
+          .collect( Collectors.groupingBy( p -> p.centroidId, new CentroidCollector() ) );
+
+      
+      // calculate centroids
+      for(Integer id : clusterMap.keySet() )
+      {
+        centroids[id] = clusterMap.get(id);
+      }
+         
       // assign centroids
       image.pixels.parallelStream().forEach( p ->
       {
@@ -64,7 +73,7 @@ public class MainEnhanced
       // the cluster is stable    
       if( accum.sum() == 0 )
       {
-        // reassign the new color to the pixel
+        // reassign the new color (centroid) to the pixel
         image.pixels.parallelStream().forEach( 
             p -> {
               p.red   = (int) centroids[p.centroidId].red;
