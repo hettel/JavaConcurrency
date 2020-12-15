@@ -6,15 +6,15 @@ import java.util.concurrent.CyclicBarrier;
 
 public class Task implements Runnable
 {
-  private final int runs;
+  private final int maxLifeTime;
   private final CyclicBarrier barrier;
   private final FieldValue[] from;
   private final FieldValue[] to;
   private final int fieldIndex;
 
-  public Task(int runs,  int fieldIndex, FieldValue[] from, FieldValue[] to, CyclicBarrier barrier)
+  public Task(int maxLifeTime,  int fieldIndex, FieldValue[] from, FieldValue[] to, CyclicBarrier barrier)
   {
-    this.runs = runs;
+    this.maxLifeTime = maxLifeTime;
     this.barrier = barrier;
     this.from = from;
     this.to = to;
@@ -28,7 +28,7 @@ public class Task implements Runnable
     {
       int fieldLen = this.from.length;
       
-      for (int i = 0; i < runs; i++)
+      for (int i = 0; i < maxLifeTime; i++)
       {
         int leftIndex = (this.fieldIndex - 1 + fieldLen)%fieldLen;
         int rightIndex = (this.fieldIndex + 1)%fieldLen;

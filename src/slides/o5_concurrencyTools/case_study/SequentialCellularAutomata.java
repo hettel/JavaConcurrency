@@ -9,8 +9,9 @@ public class SequentialCellularAutomata
 {
   public static void main(String[] args) throws InterruptedException
   {
-    FieldValue[] field = new FieldValue[100];
-    FieldValue[] shadowField = new FieldValue[100];
+    final int SIZE = 100;
+    FieldValue[] field = new FieldValue[SIZE];
+    FieldValue[] shadowField = new FieldValue[SIZE];
     Arrays.fill(field, FieldValue.W);
     Arrays.fill(shadowField, FieldValue.W);
 

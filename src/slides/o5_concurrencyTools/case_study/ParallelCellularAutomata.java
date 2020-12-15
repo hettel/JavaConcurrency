@@ -12,11 +12,11 @@ public class ParallelCellularAutomata
 {
   public static void main(String[] args)
   {
-    ExecutorService executer = Executors.newCachedThreadPool();
+    ExecutorService executor = Executors.newCachedThreadPool();
     
     final int SIZE = 100;
-    FieldValue[] from = new FieldValue[100];
-    FieldValue[] to   = new FieldValue[100];
+    FieldValue[] from = new FieldValue[SIZE];
+    FieldValue[] to   = new FieldValue[SIZE];
     
     initRandom(from);
     
@@ -27,10 +27,10 @@ public class ParallelCellularAutomata
     for(int index = 0; index < SIZE; index++)
     {
       Task task = new Task(100, index, from, to, barrier);
-      executer.execute(task);
+      executor.execute(task);
     }
     
-    executer.shutdown();
+    executor.shutdown();
   }
   
   private static void print(FieldValue[] field) 
